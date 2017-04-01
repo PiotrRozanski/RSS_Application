@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.piotr.rss_application.MainActivity">
+    tools:context="uz.pl.rss_application.MainActivity">
 
     <TextView
         android:layout_width="wrap_content"

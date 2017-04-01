@@ -1,4 +1,4 @@
-package com.example.piotr.rss_application;
+package uz.pl.rss_application;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

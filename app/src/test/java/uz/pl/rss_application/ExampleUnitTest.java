@@ -1,4 +1,4 @@
-package com.example.piotr.rss_application;
+package uz.pl.rss_application;
 
 import org.junit.Test;
 

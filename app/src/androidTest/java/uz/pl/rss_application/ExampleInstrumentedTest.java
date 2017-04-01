@@ -1,4 +1,4 @@
-package com.example.piotr.rss_application;
+package uz.pl.rss_application;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.piotr.rss_application", appContext.getPackageName());
+        assertEquals("uz.pl.rss_application", appContext.getPackageName());
     }
 }
