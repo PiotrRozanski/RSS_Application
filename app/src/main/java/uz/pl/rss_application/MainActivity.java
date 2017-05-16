@@ -8,6 +8,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +30,7 @@ import uz.pl.rss_application.parser.XmlParser;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+    private static final String DEFAULT_RSS = "http://film.wp.pl/RSS.xml";
 
     private RecyclerView recyclerView;
     private EditText editText;
@@ -41,10 +44,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setViewElemnentAction();
+        setViewElementAction();
+        addDoubleTapForDefaultRss();
     }
 
-    private void setViewElemnentAction() {
+    private void addDoubleTapForDefaultRss() {
+        final GestureDetector gestureDetector = new GestureDetector(this,new GestureDetector.SimpleOnGestureListener() {
+            public boolean onDoubleTap(MotionEvent e) {
+                editText.setText(DEFAULT_RSS);
+                return true;
+            }
+        });
+        editText.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                return gestureDetector.onTouchEvent(event);
+            }
+        });
+    }
+
+    private void setViewElementAction() {
         final Button fetchFeedButton = (Button) findViewById(R.id.fetchFeedButton);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         editText = (EditText) findViewById(R.id.rssFeedEditText);
@@ -108,5 +126,6 @@ public class MainActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
         }
+
     }
 }
