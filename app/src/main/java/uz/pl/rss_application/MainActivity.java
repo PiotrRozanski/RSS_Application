@@ -32,9 +32,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private EditText editText;
     private SwipeRefreshLayout swipeLayout;
-    private TextView feedTitleTextView;
-    private TextView feedLinkTextView;
-    private TextView feedDescriptionTextView;
 
     private List<RssFeedModel> feedModelList;
 
@@ -49,9 +46,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         editText = (EditText) findViewById(R.id.rssFeedEditText);
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
-        feedTitleTextView = (TextView) findViewById(R.id.feedTitle);
-        feedDescriptionTextView = (TextView) findViewById(R.id.feedDescription);
-        feedLinkTextView = (TextView) findViewById(R.id.feedLink);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -76,9 +70,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             swipeLayout.setRefreshing(true);
-            feedTitleTextView.setText("Feed Title: ");
-            feedDescriptionTextView.setText("Feed Description: ");
-            feedLinkTextView.setText("Feed Link: ");
             urlLink = editText.getText().toString();
         }
 
@@ -108,10 +99,6 @@ public class MainActivity extends AppCompatActivity {
             swipeLayout.setRefreshing(false);
 
             if (success) {
-                RssFeedModel rssHeading = xmlParser.getRssHeading();
-                feedTitleTextView.setText("Feed Title: " + rssHeading.getTitle());
-                feedDescriptionTextView.setText("Feed Description: " + rssHeading.getDescription());
-                feedLinkTextView.setText("Feed Link: " + rssHeading.getLink());
                 // Fill RecyclerView
                 recyclerView.setAdapter(new RssFeedListAdapter(feedModelList));
             } else {

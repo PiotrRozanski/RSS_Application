@@ -15,7 +15,6 @@ import uz.pl.rss_application.model.RssFeedModel;
 
 public class XmlParser {
 
-    private RssFeedModel rssFeedHeading;
     private String title;
     private String link;
     private String description;
@@ -76,10 +75,6 @@ public class XmlParser {
                     if (isItem) {
                         RssFeedModel item = new RssFeedModel(title, link, description);
                         items.add(item);
-                    } else {
-                        if (rssFeedHeading == null) {
-                            rssFeedHeading = new RssFeedModel(title, link, description);
-                        }
                     }
                     isItem = false;
                 }
@@ -102,14 +97,6 @@ public class XmlParser {
             link = result;
         } else if (name.equalsIgnoreCase("description")) {
             description = result;
-        }
-    }
-
-    public RssFeedModel getRssHeading() {
-        if (rssFeedHeading != null) {
-            return rssFeedHeading;
-        } else {
-            return new RssFeedModel();
         }
     }
 }
