@@ -24,7 +24,7 @@ public class XmlParser {
     private String title;
     private String link;
     private String description;
-    private Uri image;
+    private String image;
     private XmlPullParser xmlPullParser;
 
     public XmlParser() {
@@ -82,6 +82,7 @@ public class XmlParser {
                 if (title != null && link != null && description != null) {
                     if (isItem) {
                         RssFeedModel item = new RssFeedModel(title, link, description);
+                        item.setImageLink(image);
                         items.add(item);
                     }
                     isItem = false;
@@ -105,7 +106,7 @@ public class XmlParser {
             link = result;
         } else if (name.equalsIgnoreCase("description")) {
             if (result != null) {
-                image = Uri.parse(pullImageLink(result));
+                image = pullImageLink(result);
                 description = Utils.fromHtml(result.replaceAll("<img.+?>", "")).toString();
             }
         }
