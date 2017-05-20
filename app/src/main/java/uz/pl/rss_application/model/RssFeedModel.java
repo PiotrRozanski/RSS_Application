@@ -1,5 +1,7 @@
 package uz.pl.rss_application.model;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class RssFeedModel {
 
     private String title;
@@ -16,6 +18,10 @@ public class RssFeedModel {
         this.title = "";
         this.link = "";
         this.description = "";
+    }
+
+    public boolean isFull() {
+        return !StringUtils.isEmpty(title) && !StringUtils.isEmpty(link) && !StringUtils.isEmpty(description);
     }
 
     public String getTitle() {

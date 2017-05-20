@@ -3,6 +3,7 @@ package uz.pl.rss_application.parser;
 import android.util.Log;
 import android.util.Xml;
 
+import org.apache.commons.lang3.StringUtils;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -15,17 +16,16 @@ import uz.pl.rss_application.model.RssFeedModel;
 
 public class XmlParser {
 
-    private String title;
-    private String link;
-    private String description;
+    private RssFeedModel rssFeed;
+    private boolean isItem = false;
     private XmlPullParser xmlPullParser;
 
     public XmlParser() {
         this.xmlPullParser = Xml.newPullParser();
+        rssFeed = new RssFeedModel();
     }
 
     public List<RssFeedModel> parseXmlFeed(InputStream inputStream) throws XmlPullParserException, IOException {
-        boolean isItem = false;
         List<RssFeedModel> items = new ArrayList<>();
 
         try (final InputStream input = inputStream) {
@@ -35,13 +35,12 @@ public class XmlParser {
             xmlPullParser.setInput(input, null);
 
             xmlPullParser.nextTag();
+            xmlPullParser.nextTag();
 
             if (xmlPullParser.getName().equalsIgnoreCase("channel")) {
-                xmlPullParser.nextTag();
-
-                if (xmlPullParser.getName().equalsIgnoreCase("title")) {
-                    name = xmlPullParser.getName();
-                    checkRssHeading(name);
+                while(!xmlPullParser.getName().equalsIgnoreCase("item")){
+                    xmlPullParser.next();
+                    xmlPullParser.next();
                 }
             }
 
@@ -71,11 +70,12 @@ public class XmlParser {
 
                 checkRssHeading(name);
 
-                if (title != null && link != null && description != null) {
+                if (rssFeed.isFull()) {
                     if (isItem) {
-                        RssFeedModel item = new RssFeedModel(title, link, description);
+                        RssFeedModel item = rssFeed;
                         items.add(item);
                     }
+                    rssFeed = new RssFeedModel();
                     isItem = false;
                 }
             }
@@ -90,13 +90,13 @@ public class XmlParser {
             result = xmlPullParser.getText();
             xmlPullParser.nextTag();
         }
-
-        if (name.equalsIgnoreCase("title")) {
-            title = result;
-        } else if (name.equalsIgnoreCase("link")) {
-            link = result;
-        } else if (name.equalsIgnoreCase("description")) {
-            description = result;
-        }
+            if (name.equalsIgnoreCase("title")) {
+                rssFeed.setTitle(result);
+            } else if (name.equalsIgnoreCase("link")) {
+                rssFeed.setLink(result);
+            } else if (name.equalsIgnoreCase("description")) {
+                rssFeed.setDescription(result);
+                isItem = true;
+            }
     }
 }
