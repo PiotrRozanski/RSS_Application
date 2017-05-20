@@ -129,7 +129,8 @@ public class XmlParser {
                 eventType = xpp.next();
             }
         }
-        catch (Exception e) {
+        catch (XmlPullParserException|IOException e){
+            Log.e("XmlParsing", e.getMessage());
         }
 
         return "";
