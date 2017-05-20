@@ -70,10 +70,9 @@ public class XmlParser {
 
                 checkRssHeading(name);
 
-                if (rssFeed.isFull()) {
+                if (rssFeed.isAllSet()) {
                     if (isItem) {
-                        RssFeedModel item = rssFeed;
-                        items.add(item);
+                        items.add(rssFeed);
                     }
                     rssFeed = new RssFeedModel();
                     isItem = false;
