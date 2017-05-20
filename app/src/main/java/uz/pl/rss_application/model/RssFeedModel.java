@@ -20,7 +20,7 @@ public class RssFeedModel {
         this.description = "";
     }
 
-    public boolean isFull() {
+    public boolean isAllSet() {
         return !StringUtils.isEmpty(title) && !StringUtils.isEmpty(link) && !StringUtils.isEmpty(description);
     }
 
