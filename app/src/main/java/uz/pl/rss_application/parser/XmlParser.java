@@ -1,14 +1,17 @@
 package uz.pl.rss_application.parser;
 
+import android.net.Uri;
 import android.util.Log;
 import android.util.Xml;
 
 import org.apache.commons.lang3.StringUtils;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,7 +97,8 @@ public class XmlParser {
             } else if (name.equalsIgnoreCase("link")) {
                 rssFeed.setLink(result);
             } else if (name.equalsIgnoreCase("description")) {
-                rssFeed.setDescription(result);
+                rssFeed.setImageLink(Utils.pullImageLink(result));
+                rssFeed.setDescription(Utils.stripImgTag(result));
                 isItem = true;
             }
     }
