@@ -11,11 +11,9 @@ import java.util.List;
 import uz.pl.rss_application.R;
 import uz.pl.rss_application.model.RssFeedModel;
 
-public class RssFeedListAdapter
-        extends RecyclerView.Adapter<FeedModelViewHolder> {
+public class RssFeedListAdapter extends RecyclerView.Adapter<FeedModelViewHolder> {
 
     private List<RssFeedModel> mRssFeedModels;
-
     public RssFeedListAdapter(List<RssFeedModel> rssFeedModels) {
         mRssFeedModels = rssFeedModels;
     }
@@ -25,7 +23,7 @@ public class RssFeedListAdapter
         final View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_rss_feed, parent, false);
 
-        return new FeedModelViewHolder(v);
+        return new FeedModelViewHolder(v, mRssFeedModels, parent.getContext());
     }
 
     @Override
