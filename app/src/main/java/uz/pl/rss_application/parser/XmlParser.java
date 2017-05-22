@@ -1,17 +1,12 @@
 package uz.pl.rss_application.parser;
 
-import android.net.Uri;
-import android.util.Log;
 import android.util.Xml;
 
-import org.apache.commons.lang3.StringUtils;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +36,8 @@ public class XmlParser {
             xmlPullParser.nextTag();
 
             if (xmlPullParser.getName().equalsIgnoreCase("channel")) {
-                while(!xmlPullParser.getName().equalsIgnoreCase("item")){
+                while (!xmlPullParser.getName().equalsIgnoreCase("item")) {
+                    if (ignoreTagWithColon()) continue;
                     xmlPullParser.next();
                     xmlPullParser.next();
                 }
@@ -69,8 +65,6 @@ public class XmlParser {
                     }
                 }
 
-                Log.d("MainActivity", "Parsing name ==> " + name);
-
                 checkRssHeading(name);
 
                 if (rssFeed.isAllSet()) {
@@ -85,6 +79,14 @@ public class XmlParser {
         }
     }
 
+    private boolean ignoreTagWithColon() throws XmlPullParserException, IOException {
+        if (xmlPullParser.getName().contains(":")) {
+            xmlPullParser.nextTag();
+            return true;
+        }
+        return false;
+    }
+
     private void checkRssHeading(final String name) throws IOException, XmlPullParserException {
         String result = "";
 
@@ -92,14 +94,14 @@ public class XmlParser {
             result = xmlPullParser.getText();
             xmlPullParser.nextTag();
         }
-            if (name.equalsIgnoreCase("title")) {
-                rssFeed.setTitle(result);
-            } else if (name.equalsIgnoreCase("link")) {
-                rssFeed.setLink(result);
-            } else if (name.equalsIgnoreCase("description")) {
-                rssFeed.setImageLink(Utils.pullImageLink(result));
-                rssFeed.setDescription(Utils.stripImgTag(result));
-                isItem = true;
-            }
+        if (name.equalsIgnoreCase("title")) {
+            rssFeed.setTitle(result);
+        } else if (name.equalsIgnoreCase("link")) {
+            rssFeed.setLink(result);
+        } else if (name.equalsIgnoreCase("description")) {
+            rssFeed.setImageLink(Utils.pullImageLink(result));
+            rssFeed.setDescription(Utils.stripImgTag(result));
+            isItem = true;
+        }
     }
 }

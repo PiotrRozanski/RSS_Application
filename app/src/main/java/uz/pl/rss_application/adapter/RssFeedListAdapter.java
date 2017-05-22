@@ -33,7 +33,7 @@ public class RssFeedListAdapter
         final RssFeedModel rssFeedModel = mRssFeedModels.get(position);
 
         addRssMessageToView(holder, R.id.titleText, rssFeedModel.getTitle());
-        addRssMessageToView(holder, R.id.descriptionText, rssFeedModel.getDescription());
+        addRssMessageToView(holder, R.id.descriptionText, prepareDescription(rssFeedModel.getDescription()));
         addRssMessageToView(holder, R.id.linkText, rssFeedModel.getLink());
     }
 
@@ -44,6 +44,10 @@ public class RssFeedListAdapter
 
     private void addRssMessageToView(final FeedModelViewHolder holder,final int elementId, final String text) {
         ((TextView) holder.getRssFeedView().findViewById(elementId)).setText(text);
+    }
+
+    private String prepareDescription(final String description) {
+        return description.replaceAll("\n", "");
     }
 }
 
