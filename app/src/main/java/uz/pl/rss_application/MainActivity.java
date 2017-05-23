@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
     private String currentRssLink;
 
     private RecyclerView recyclerView;
-    private EditText editText;
     private SwipeRefreshLayout swipeLayout;
 
     private DrawerLayout drawerLayout;
@@ -57,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setViewElementAction();
-        addDoubleTapForDefaultRss();
         fillRssChannels();
     }
 
@@ -100,40 +98,14 @@ public class MainActivity extends AppCompatActivity {
         //getActionBar().setTitle(title);
     }
 
-    private void addDoubleTapForDefaultRss() {
-        final GestureDetector gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
-            public boolean onDoubleTap(MotionEvent e) {
-                editText.setText(DEFAULT_RSS);
-                return true;
-            }
-        });
-        editText.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                return gestureDetector.onTouchEvent(event);
-            }
-        });
-    }
 
     private void setViewElementAction() {
-        final Button fetchFeedButton = (Button) findViewById(R.id.fetchFeedButton);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        editText = (EditText) findViewById(R.id.rssFeedEditText);
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        fetchFeedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                currentRssLink = editText.getText().toString();
-                fetchRss();
-                InputMethodManager inputManager = (InputMethodManager)
-                        getSystemService(Context.INPUT_METHOD_SERVICE);
 
-                inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
-            }
-        });
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -182,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                 recyclerView.setAdapter(new RssFeedListAdapter(feedModelList));
             } else {
                 Toast.makeText(MainActivity.this,
-                        "Enter a valid Rss feed url",
+                        "Invalid link to RSS",
                         Toast.LENGTH_LONG).show();
             }
         }
