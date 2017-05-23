@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setViewElementAction();
         fillRssChannels();
+        setTitle("Wybierz kanał RSS z lewej");
     }
 
     ArrayList<RssChannelModel> channels;
@@ -67,9 +68,7 @@ public class MainActivity extends AppCompatActivity {
         channels = new ArrayList<>(Arrays.asList(
                 new RssChannelModel("RMF24", "http://www.rmf24.pl/fakty/feed"),
                 new RssChannelModel("WP - film", "http://film.wp.pl/rss.xml"),
-                new RssChannelModel("WP - moto", "http://moto.wp.pl/rss.xml"),
-                new RssChannelModel("WP - studio", "http://studio.wp.pl/rss.xml"),
-                new RssChannelModel("WP - wakacje", "http://wakacje.wp.pl/rss.xml")));
+                new RssChannelModel("WP - moto", "http://moto.wp.pl/rss.xml")));
 
         ChannelListAdapter adapter = new ChannelListAdapter(this, R.layout.rss_channel, channels);
         channelsListView.setAdapter(adapter);

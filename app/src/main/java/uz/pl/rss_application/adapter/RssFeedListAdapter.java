@@ -32,7 +32,6 @@ public class RssFeedListAdapter extends RecyclerView.Adapter<FeedModelViewHolder
 
         addRssMessageToView(holder, R.id.titleText, rssFeedModel.getTitle());
         addRssMessageToView(holder, R.id.descriptionText, prepareDescription(rssFeedModel.getDescription()));
-        addRssMessageToView(holder, R.id.linkText, rssFeedModel.getLink());
     }
 
     @Override
