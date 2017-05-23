@@ -13,9 +13,10 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -23,9 +24,12 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 
+import uz.pl.rss_application.adapter.ChannelListAdapter;
 import uz.pl.rss_application.adapter.RssFeedListAdapter;
+import uz.pl.rss_application.model.RssChannelModel;
 import uz.pl.rss_application.model.RssFeedModel;
 import uz.pl.rss_application.parser.XmlParser;
 
@@ -48,7 +52,32 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setViewElementAction();
         addDoubleTapForDefaultRss();
+        fillRssChannels();
     }
+
+    private void fillRssChannels() {
+        ListView mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        List<RssChannelModel> channels = Arrays.asList(
+                new RssChannelModel("RMF24", "http://www.rmf24.pl/fakty/feed"),
+                new RssChannelModel("WP - film", "http://film.wp.pl/rss.xml"),
+                new RssChannelModel("WP - moto", "http://moto.wp.pl/rss.xml"),
+                new RssChannelModel("WP - studio", "http://studio.wp.pl/rss.xml"),
+                new RssChannelModel("WP - wakacje", "http://wakacje.wp.pl/rss.xml"));
+
+        ChannelListAdapter adapter = new ChannelListAdapter(this, R.layout.rss_channel,channels);
+        mDrawerList.setAdapter(adapter);
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
+    }
+    private void selectItem(int position) {
+       //tutaj kod do wczytania innych rssow
+    }
+
 
     private void addDoubleTapForDefaultRss() {
         final GestureDetector gestureDetector = new GestureDetector(this,new GestureDetector.SimpleOnGestureListener() {
