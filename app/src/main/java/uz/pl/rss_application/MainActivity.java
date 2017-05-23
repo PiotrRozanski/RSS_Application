@@ -2,6 +2,7 @@ package uz.pl.rss_application;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,10 +39,14 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private static final String DEFAULT_RSS = "http://www.rmf24.pl/fakty/feed";
+    private String currentRssLink;
 
     private RecyclerView recyclerView;
     private EditText editText;
     private SwipeRefreshLayout swipeLayout;
+
+    private DrawerLayout drawerLayout;
+    private ListView channelsListView;
 
     private List<RssFeedModel> feedModelList;
 
@@ -55,17 +61,21 @@ public class MainActivity extends AppCompatActivity {
         fillRssChannels();
     }
 
+    ArrayList<RssChannelModel> channels;
+
     private void fillRssChannels() {
-        ListView mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        List<RssChannelModel> channels = Arrays.asList(
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        channelsListView = (ListView) findViewById(R.id.channel_list);
+        channels = new ArrayList<>(Arrays.asList(
                 new RssChannelModel("RMF24", "http://www.rmf24.pl/fakty/feed"),
                 new RssChannelModel("WP - film", "http://film.wp.pl/rss.xml"),
                 new RssChannelModel("WP - moto", "http://moto.wp.pl/rss.xml"),
                 new RssChannelModel("WP - studio", "http://studio.wp.pl/rss.xml"),
-                new RssChannelModel("WP - wakacje", "http://wakacje.wp.pl/rss.xml"));
+                new RssChannelModel("WP - wakacje", "http://wakacje.wp.pl/rss.xml")));
 
-        ChannelListAdapter adapter = new ChannelListAdapter(this, R.layout.rss_channel,channels);
-        mDrawerList.setAdapter(adapter);
+        ChannelListAdapter adapter = new ChannelListAdapter(this, R.layout.rss_channel, channels);
+        channelsListView.setAdapter(adapter);
+        channelsListView.setOnItemClickListener(new DrawerItemClickListener());
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -74,13 +84,24 @@ public class MainActivity extends AppCompatActivity {
             selectItem(position);
         }
     }
+
     private void selectItem(int position) {
-       //tutaj kod do wczytania innych rssow
+        RssChannelModel model = channels.get(position);
+        currentRssLink = model.getLink();
+        fetchRss();
+
+        channelsListView.setItemChecked(position, true);
+        setTitle(model.getName());
+        drawerLayout.closeDrawer(findViewById(R.id.left_drawer));
     }
 
+    @Override
+    public void setTitle(CharSequence title) {
+        //getActionBar().setTitle(title);
+    }
 
     private void addDoubleTapForDefaultRss() {
-        final GestureDetector gestureDetector = new GestureDetector(this,new GestureDetector.SimpleOnGestureListener() {
+        final GestureDetector gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
             public boolean onDoubleTap(MotionEvent e) {
                 editText.setText(DEFAULT_RSS);
                 return true;
@@ -104,7 +125,8 @@ public class MainActivity extends AppCompatActivity {
         fetchFeedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new FetchFeedTask().execute((Void) null);
+                currentRssLink = editText.getText().toString();
+                fetchRss();
                 InputMethodManager inputManager = (InputMethodManager)
                         getSystemService(Context.INPUT_METHOD_SERVICE);
 
@@ -115,31 +137,33 @@ public class MainActivity extends AppCompatActivity {
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new FetchFeedTask().execute((Void) null);
+                fetchRss();
             }
         });
     }
 
+    private void fetchRss() {
+        new FetchFeedTask().execute((Void) null);
+    }
+
     private class FetchFeedTask extends AsyncTask<Void, Void, Boolean> {
-        private String urlLink;
 
         @Override
         protected void onPreExecute() {
             swipeLayout.setRefreshing(true);
-            urlLink = editText.getText().toString();
         }
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            if (TextUtils.isEmpty(urlLink))
+            if (TextUtils.isEmpty(currentRssLink))
                 return false;
 
             try {
-                if (!urlLink.startsWith("http://") && !urlLink.startsWith("https://")) {
-                    urlLink = "http://" + urlLink;
+                if (!currentRssLink.startsWith("http://") && !currentRssLink.startsWith("https://")) {
+                    currentRssLink = "http://" + currentRssLink;
                 }
 
-                final URL url = new URL(urlLink);
+                final URL url = new URL(currentRssLink);
                 final InputStream inputStream = url.openConnection().getInputStream();
                 feedModelList = xmlParser.parseXmlFeed(inputStream);
                 return true;
