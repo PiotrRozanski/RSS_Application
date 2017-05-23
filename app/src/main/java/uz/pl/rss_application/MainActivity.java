@@ -66,9 +66,10 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         channelsListView = (ListView) findViewById(R.id.channel_list);
         channels = new ArrayList<>(Arrays.asList(
-                new RssChannelModel("RMF24", "http://www.rmf24.pl/fakty/feed"),
-                new RssChannelModel("WP - film", "http://film.wp.pl/rss.xml"),
-                new RssChannelModel("WP - moto", "http://moto.wp.pl/rss.xml")));
+                new RssChannelModel("RMF 24 - Fakty z Polski", "http://www.rmf24.pl/fakty/polska/feed"),
+                new RssChannelModel("RMF 24 - Fakty ze świata",  "http://www.rmf24.pl/fakty/swiat/feed"),
+                new RssChannelModel("Wirtualna Polska - film", "http://film.wp.pl/rss.xml"),
+                new RssChannelModel("Wirtualna Polska - moto", "http://moto.wp.pl/rss.xml")));
 
         ChannelListAdapter adapter = new ChannelListAdapter(this, R.layout.rss_channel, channels);
         channelsListView.setAdapter(adapter);
