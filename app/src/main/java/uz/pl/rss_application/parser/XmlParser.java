@@ -35,13 +35,7 @@ public class XmlParser {
             xmlPullParser.nextTag();
             xmlPullParser.nextTag();
 
-            if (xmlPullParser.getName().equalsIgnoreCase("channel")) {
-                while (!xmlPullParser.getName().equalsIgnoreCase("item")) {
-                    if (ignoreTagWithColon()) continue;
-                    xmlPullParser.next();
-                    xmlPullParser.next();
-                }
-            }
+            ignoreHeading();
 
             while (xmlPullParser.next() != XmlPullParser.END_DOCUMENT) {
                 final int eventType = xmlPullParser.getEventType();
@@ -79,12 +73,16 @@ public class XmlParser {
         }
     }
 
-    private boolean ignoreTagWithColon() throws XmlPullParserException, IOException {
-        if (xmlPullParser.getName().contains(":")) {
-            xmlPullParser.nextTag();
-            return true;
+    private void ignoreHeading() throws XmlPullParserException, IOException {
+        if (xmlPullParser.getName().equalsIgnoreCase("channel")) {
+            while (!xmlPullParser.getName().equalsIgnoreCase("item")) {
+                xmlPullParser.next();
+                while (xmlPullParser.getName() == null) {
+                    xmlPullParser.next();
+                }
+                if (xmlPullParser.getName().equalsIgnoreCase("item")) break;
+            }
         }
-        return false;
     }
 
     private void checkRssHeading(final String name) throws IOException, XmlPullParserException {
