@@ -11,6 +11,7 @@ import java.util.List;
 
 import uz.pl.rss_application.R;
 import uz.pl.rss_application.model.RssChannelModel;
+
 public class ChannelListAdapter extends ArrayAdapter<RssChannelModel> {
     public ChannelListAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
@@ -21,14 +22,13 @@ public class ChannelListAdapter extends ArrayAdapter<RssChannelModel> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View view = convertView;
+    public View getView(int position, View view, ViewGroup parent) {
         if (view == null) {
             LayoutInflater inflater;
             inflater = LayoutInflater.from(getContext());
             view = inflater.inflate(R.layout.rss_channel, null);
         }
-        RssChannelModel model = getItem(position);
+        final RssChannelModel model = getItem(position);
         if (model != null) {
             TextView textView = (TextView) view.findViewById(R.id.rsschannelname);
             if (textView != null) {

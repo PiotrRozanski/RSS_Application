@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         channelsListView = (ListView) findViewById(R.id.channel_list);
         channels = new ArrayList<>(Arrays.asList(
                 new RssChannelModel("RMF 24 - Fakty z Polski", "http://www.rmf24.pl/fakty/polska/feed"),
-                new RssChannelModel("RMF 24 - Fakty ze świata",  "http://www.rmf24.pl/fakty/swiat/feed"),
+                new RssChannelModel("RMF 24 - Fakty ze świata", "http://www.rmf24.pl/fakty/swiat/feed"),
                 new RssChannelModel("Wirtualna Polska - film", "http://film.wp.pl/rss.xml"),
                 new RssChannelModel("Wirtualna Polska - moto", "http://moto.wp.pl/rss.xml")));
 
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void selectItem(int position) {
-        RssChannelModel model = channels.get(position);
+        final RssChannelModel model = channels.get(position);
         currentRssLink = model.getLink();
         fetchRss();
 
