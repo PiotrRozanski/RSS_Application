@@ -37,9 +37,10 @@ import uz.pl.rss_application.parser.XmlParser;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "MainActivity"; 
     private static final String DEFAULT_RSS = "http://www.rmf24.pl/fakty/feed";
     private String currentRssLink;
+ 
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeLayout;
