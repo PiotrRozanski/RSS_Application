@@ -1,22 +1,18 @@
 package uz.pl.rss_application;
 
-import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -40,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity"; 
     private static final String DEFAULT_RSS = "http://www.rmf24.pl/fakty/feed";
     private String currentRssLink;
- 
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeLayout;
@@ -77,6 +72,18 @@ public class MainActivity extends AppCompatActivity {
         channelsListView.setOnItemClickListener(new DrawerItemClickListener());
     }
 
+    public void Widok1Click(View view) {
+        recyclerView.setAdapter(new RssFeedListAdapter(feedModelList, RssFeedListAdapter.RSS_VIEW_TYPE.RSS_VIEW_1));
+    }
+
+    public void Widok2Click(View view) {
+        recyclerView.setAdapter(new RssFeedListAdapter(feedModelList, RssFeedListAdapter.RSS_VIEW_TYPE.RSS_VIEW_2));
+    }
+
+    public void Widok3Click(View view) {
+        recyclerView.setAdapter(new RssFeedListAdapter(feedModelList, RssFeedListAdapter.RSS_VIEW_TYPE.RSS_VIEW_3));
+    }
+
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -106,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -130,15 +136,15 @@ public class MainActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... voids) {
             if (TextUtils.isEmpty(currentRssLink))
                 return false;
-
             try {
                 if (!currentRssLink.startsWith("http://") && !currentRssLink.startsWith("https://")) {
                     currentRssLink = "http://" + currentRssLink;
                 }
-
                 final URL url = new URL(currentRssLink);
                 final InputStream inputStream = url.openConnection().getInputStream();
                 feedModelList = xmlParser.parseXmlFeed(inputStream);
+
+                loadImages();
                 return true;
 
             } catch (final IOException | XmlPullParserException e) {
@@ -147,18 +153,28 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
 
+        private void loadImages() {
+            for (int i=0;i<feedModelList.size();i++) {
+                try {
+                    Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(feedModelList.get(i).getImageLink()).getContent());
+                    feedModelList.get(i).setImage(bitmap);
+                } catch (Exception ex) {
+                    ex.printStackTrace();;
+                }
+            }
+        }
+
         @Override
         protected void onPostExecute(final Boolean success) {
             swipeLayout.setRefreshing(false);
 
             if (success) {
-                recyclerView.setAdapter(new RssFeedListAdapter(feedModelList));
+                recyclerView.setAdapter(new RssFeedListAdapter(feedModelList, RssFeedListAdapter.RSS_VIEW_TYPE.RSS_VIEW_1));
             } else {
                 Toast.makeText(MainActivity.this,
                         "Invalid link to RSS",
                         Toast.LENGTH_LONG).show();
             }
         }
-
     }
 }

@@ -32,6 +32,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="Widok1Click"
                 android:text="widok1" />
 
             <Button
@@ -39,6 +40,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="Widok2Click"
                 android:text="widok2" />
 
             <Button
@@ -46,6 +48,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="Widok3Click"
                 android:text="widok3" />
         </LinearLayout>
 
