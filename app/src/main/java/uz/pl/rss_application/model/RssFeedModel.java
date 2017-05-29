@@ -1,5 +1,7 @@
 package uz.pl.rss_application.model;
 
+import android.graphics.Bitmap;
+
 import org.apache.commons.lang3.StringUtils;
 
 public class RssFeedModel {
@@ -8,6 +10,7 @@ public class RssFeedModel {
     private String link;
     private String description;
     private String imageLink;
+    private Bitmap image;
 
     public RssFeedModel(String title, String link, String description) {
         this.title = title;
@@ -56,5 +59,13 @@ public class RssFeedModel {
 
     public void setImageLink(String imageLink) {
         this.imageLink = imageLink;
+    }
+
+    public Bitmap getImage() {
+        return image;
+    }
+
+    public void setImage(Bitmap image) {
+        this.image = image;
     }
 }
