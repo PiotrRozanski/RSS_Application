@@ -73,15 +73,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void Widok1Click(View view) {
-        recyclerView.setAdapter(new RssFeedListAdapter(feedModelList, RssFeedListAdapter.RSS_VIEW_TYPE.RSS_VIEW_1));
+        if(currentRssLink != null) {
+            recyclerView.setAdapter(new RssFeedListAdapter(feedModelList, RssFeedListAdapter.RSS_VIEW_TYPE.RSS_VIEW_1));
+        }
     }
 
     public void Widok2Click(View view) {
-        recyclerView.setAdapter(new RssFeedListAdapter(feedModelList, RssFeedListAdapter.RSS_VIEW_TYPE.RSS_VIEW_2));
+        if(currentRssLink != null) {
+            recyclerView.setAdapter(new RssFeedListAdapter(feedModelList, RssFeedListAdapter.RSS_VIEW_TYPE.RSS_VIEW_2));
+        }
     }
 
     public void Widok3Click(View view) {
-        recyclerView.setAdapter(new RssFeedListAdapter(feedModelList, RssFeedListAdapter.RSS_VIEW_TYPE.RSS_VIEW_3));
+        if(currentRssLink != null) {
+            recyclerView.setAdapter(new RssFeedListAdapter(feedModelList, RssFeedListAdapter.RSS_VIEW_TYPE.RSS_VIEW_3));
+        }
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -153,11 +159,21 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
 
+        private Bitmap getBitmapFromLink(URL url) {
+            try {
+                InputStream inputStream = (InputStream) url.getContent();
+                return BitmapFactory.decodeStream(inputStream);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                return null;
+            }
+        }
+
         private void loadImages() {
-            for (int i=0;i<feedModelList.size();i++) {
+            for (int i=0; i < feedModelList.size(); i++) {
                 try {
-                    Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(feedModelList.get(i).getImageLink()).getContent());
-                    feedModelList.get(i).setImage(bitmap);
+                    URL url = new URL(feedModelList.get(i).getImageLink());
+                    feedModelList.get(i).setImage(getBitmapFromLink(url));
                 } catch (Exception ex) {
                     ex.printStackTrace();;
                 }

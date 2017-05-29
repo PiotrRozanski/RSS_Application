@@ -13,7 +13,7 @@ import uz.pl.rss_application.R;
 import uz.pl.rss_application.model.RssFeedModel;
 
 public class RssFeedListAdapter extends RecyclerView.Adapter<FeedModelViewHolder> {
-    public enum RSS_VIEW_TYPE {NON, RSS_VIEW_1, RSS_VIEW_2, RSS_VIEW_3};
+    public enum RSS_VIEW_TYPE {RSS_VIEW_1, RSS_VIEW_2, RSS_VIEW_3};
     private List<RssFeedModel> mRssFeedModels;
     private RSS_VIEW_TYPE type;
 
@@ -34,15 +34,15 @@ public class RssFeedListAdapter extends RecyclerView.Adapter<FeedModelViewHolder
     @Override
     public void onBindViewHolder(final FeedModelViewHolder holder, int position) {
         final RssFeedModel rssFeedModel = mRssFeedModels.get(position);
-        if (type.equals(RSS_VIEW_TYPE.RSS_VIEW_1)) {
+
+        if(mRssFeedModels != null) {
             addRssMessageToView(holder, R.id.titleText, rssFeedModel.getTitle());
-        } else if (type.equals(RSS_VIEW_TYPE.RSS_VIEW_2)) {
-            addRssMessageToView(holder, R.id.titleText, rssFeedModel.getTitle());
-            addRssMessageToView(holder, R.id.descriptionText, prepareDescription(rssFeedModel.getDescription()));
-        } else if (type.equals(RSS_VIEW_TYPE.RSS_VIEW_3)) {
-            addRssMessageToView(holder, R.id.titleText, rssFeedModel.getTitle());
-            addRssMessageToView(holder, R.id.descriptionText, prepareDescription(rssFeedModel.getDescription()));
-            drawImage(holder,rssFeedModel);
+            if (type.equals(RSS_VIEW_TYPE.RSS_VIEW_2)) {
+                addRssMessageToView(holder, R.id.descriptionText, prepareDescription(rssFeedModel.getDescription()));
+            } else if (type.equals(RSS_VIEW_TYPE.RSS_VIEW_3)) {
+                addRssMessageToView(holder, R.id.descriptionText, prepareDescription(rssFeedModel.getDescription()));
+                drawImage(holder, rssFeedModel);
+            }
         }
     }
 
