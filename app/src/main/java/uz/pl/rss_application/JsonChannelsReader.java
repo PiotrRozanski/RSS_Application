@@ -3,7 +3,6 @@ package uz.pl.rss_application;
 import android.util.JsonReader;
 
 import org.apache.commons.lang3.StringUtils;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -60,5 +59,4 @@ public class JsonChannelsReader {
         }
         return new RssChannelModel(channelName, channelUrl);
     }
-
  }
