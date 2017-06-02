@@ -2,6 +2,8 @@ package uz.pl.rss_application;
 
 import android.util.JsonReader;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -28,7 +30,10 @@ public class JsonChannelsReader {
 
         reader.beginArray();
         while (reader.hasNext()) {
-            channels.add(readMessage(reader));
+            RssChannelModel channel = readMessage(reader);
+            if (channel != null) {
+                channels.add(channel);
+            }
         }
         reader.endArray();
         return channels;
@@ -50,6 +55,10 @@ public class JsonChannelsReader {
             }
         }
         reader.endObject();
+        if (StringUtils.isEmpty(channelName) || StringUtils.isEmpty(channelUrl)){
+            return null;
+        }
         return new RssChannelModel(channelName, channelUrl);
     }
-}
+
+ }
