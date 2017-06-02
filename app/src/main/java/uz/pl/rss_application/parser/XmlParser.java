@@ -23,8 +23,8 @@ public class XmlParser {
         rssFeed = new RssFeedModel();
     }
 
-    public List<RssFeedModel> parseXmlFeed(InputStream inputStream) throws XmlPullParserException, IOException {
-        List<RssFeedModel> items = new ArrayList<>();
+    public List<RssFeedModel> parseXmlFeed(final InputStream inputStream) throws XmlPullParserException, IOException {
+        final List<RssFeedModel> items = new ArrayList<>();
 
         try (final InputStream input = inputStream) {
             String name;
