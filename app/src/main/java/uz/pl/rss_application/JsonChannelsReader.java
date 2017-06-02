@@ -13,24 +13,21 @@ import uz.pl.rss_application.model.RssChannelModel;
 
 public class JsonChannelsReader {
     public List<RssChannelModel> getRssChannelModels(InputStream jsonFile) throws IOException {
-        return readJsonStream(jsonFile);
+        JsonReader reader = new JsonReader(new InputStreamReader(jsonFile, "UTF-8"));
+        try {
+            return readAllChannels(reader);
+        } finally {
+            reader.close();
+        }
     }
-    public List<RssChannelModel> readJsonStream(InputStream in) throws IOException {
-    JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
-    try {
-        return readMessagesArray(reader);
-    } finally {
-        reader.close();
-    }
-}
 
-    public List<RssChannelModel> readMessagesArray(JsonReader reader) throws IOException {
+    public List<RssChannelModel> readAllChannels(JsonReader reader) throws IOException {
         List<RssChannelModel> channels = new ArrayList<>();
 
         reader.beginArray();
         while (reader.hasNext()) {
-            RssChannelModel channel = readMessage(reader);
-            if (channel != null) {
+            RssChannelModel channel = readChannel(reader);
+            if (channel != RssChannelModel.EMPTY) {
                 channels.add(channel);
             }
         }
@@ -38,7 +35,7 @@ public class JsonChannelsReader {
         return channels;
     }
 
-    public RssChannelModel readMessage(JsonReader reader) throws IOException {
+    public RssChannelModel readChannel(JsonReader reader) throws IOException {
         String channelName = "";
         String channelUrl = "";
 
@@ -55,7 +52,7 @@ public class JsonChannelsReader {
         }
         reader.endObject();
         if (StringUtils.isEmpty(channelName) || StringUtils.isEmpty(channelUrl)){
-            return null;
+            return RssChannelModel.EMPTY;
         }
         return new RssChannelModel(channelName, channelUrl);
     }

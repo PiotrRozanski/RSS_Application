@@ -2,6 +2,7 @@ package uz.pl.rss_application.model;
 
 
 public class RssChannelModel {
+    public final static RssChannelModel EMPTY = new RssChannelModel("","");
     final private String name;
     final private String link;
 
