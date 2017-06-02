@@ -1,9 +1,11 @@
 package uz.pl.rss_application;
 
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -33,7 +35,7 @@ import uz.pl.rss_application.parser.XmlParser;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity"; 
+    private static final String TAG = "MainActivity";
     private static final String DEFAULT_RSS = "http://www.rmf24.pl/fakty/feed";
     private String currentRssLink;
 
@@ -56,21 +58,22 @@ public class MainActivity extends AppCompatActivity {
         setTitle("Wybierz kanał RSS z lewej");
     }
 
-    ArrayList<RssChannelModel> channels;
+    List<RssChannelModel> channels;
 
     private void fillRssChannels() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         channelsListView = (ListView) findViewById(R.id.channel_list);
-        channels = new ArrayList<>(Arrays.asList(
-                new RssChannelModel("RMF 24 - Fakty z Polski", "http://www.rmf24.pl/fakty/polska/feed"),
-                new RssChannelModel("RMF 24 - Fakty ze świata", "http://www.rmf24.pl/fakty/swiat/feed"),
-                new RssChannelModel("Wirtualna Polska - film", "http://film.wp.pl/rss.xml"),
-                new RssChannelModel("Wirtualna Polska - moto", "http://moto.wp.pl/rss.xml")));
+        try {
+            channels = new JsonChannelsReader().getRssChannelModels(getAssets().open("channels.json"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         ChannelListAdapter adapter = new ChannelListAdapter(this, R.layout.rss_channel, channels);
         channelsListView.setAdapter(adapter);
         channelsListView.setOnItemClickListener(new DrawerItemClickListener());
     }
+
 
     public void Widok1Click(View view) {
         if(currentRssLink != null) {

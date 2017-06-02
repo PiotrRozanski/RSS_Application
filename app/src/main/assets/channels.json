@@ -1,0 +1,18 @@
+[
+  {
+    "name": "RMF 24 - Fakty z Polski",
+    "url": "http://www.rmf24.pl/fakty/polska/feed"
+  },
+  {
+    "name": "RMF 24 - Fakty ze świata",
+    "url": "http://www.rmf24.pl/fakty/swiat/feed"
+  },
+  {
+    "name": "Wirtualna Polska - film",
+    "url": "https://film.wp.pl/rss.xml"
+  },
+  {
+    "name": "Wirtualna Polska - moto",
+    "url": "https://moto.wp.pl/rss.xml"
+  }
+]
