@@ -11,17 +11,14 @@ import java.util.List;
 
 import uz.pl.rss_application.model.RssChannelModel;
 
-public class JsonChannelsReader {
-    public List<RssChannelModel> getRssChannelModels(final InputStream jsonFile) throws IOException {
-        final JsonReader reader = new JsonReader(new InputStreamReader(jsonFile, "UTF-8"));
-        try {
+class JsonChannelsReader {
+    List<RssChannelModel> getRssChannelModels(final InputStream jsonFile) throws IOException {
+        try (JsonReader reader = new JsonReader(new InputStreamReader(jsonFile, "UTF-8"))) {
             return readAllChannels(reader);
-        } finally {
-            reader.close();
         }
     }
 
-    public List<RssChannelModel> readAllChannels(final JsonReader reader) throws IOException {
+    private List<RssChannelModel> readAllChannels(final JsonReader reader) throws IOException {
         final List<RssChannelModel> channels = new ArrayList<>();
 
         reader.beginArray();
@@ -35,19 +32,23 @@ public class JsonChannelsReader {
         return channels;
     }
 
-    public RssChannelModel readChannel(final JsonReader reader) throws IOException {
+    private RssChannelModel readChannel(final JsonReader reader) throws IOException {
         String channelName = "";
         String channelUrl = "";
 
         reader.beginObject();
         while (reader.hasNext()) {
             final String name = reader.nextName();
-            if (name.equals("name")) {
-                channelName = reader.nextString();
-            } else if (name.equals("url")) {
-                channelUrl = reader.nextString();
-            } else {
-                reader.skipValue();
+            switch (name) {
+                case "name":
+                    channelName = reader.nextString();
+                    break;
+                case "url":
+                    channelUrl = reader.nextString();
+                    break;
+                default:
+                    reader.skipValue();
+                    break;
             }
         }
         reader.endObject();

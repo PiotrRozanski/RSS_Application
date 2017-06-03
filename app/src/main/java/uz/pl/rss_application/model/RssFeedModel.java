@@ -12,12 +12,6 @@ public class RssFeedModel {
     private String imageLink;
     private Bitmap image;
 
-    public RssFeedModel(String title, String link, String description) {
-        this.title = title;
-        this.link = link;
-        this.description = description;
-    }
-
     public RssFeedModel() {
         this.title = "";
         this.link = "";
