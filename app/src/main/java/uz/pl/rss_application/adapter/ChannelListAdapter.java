@@ -13,9 +13,6 @@ import uz.pl.rss_application.R;
 import uz.pl.rss_application.model.RssChannelModel;
 
 public class ChannelListAdapter extends ArrayAdapter<RssChannelModel> {
-    public ChannelListAdapter(Context context, int textViewResourceId) {
-        super(context, textViewResourceId);
-    }
 
     public ChannelListAdapter(Context context, int resource, List<RssChannelModel> items) {
         super(context, resource, items);

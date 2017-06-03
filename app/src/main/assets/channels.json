@@ -1,18 +1,86 @@
 [
   {
-    "name": "RMF 24 - Fakty z Polski",
-    "url": "http://www.rmf24.pl/fakty/polska/feed"
-  },
-  {
-    "name": "RMF 24 - Fakty ze świata",
-    "url": "http://www.rmf24.pl/fakty/swiat/feed"
-  },
-  {
     "name": "Wirtualna Polska - film",
     "url": "https://film.wp.pl/rss.xml"
   },
   {
     "name": "Wirtualna Polska - moto",
     "url": "https://moto.wp.pl/rss.xml"
+  },
+  {
+    "name": "TVN 24 - Najnowsze",
+    "url": "http://www.tvn24.pl/najnowsze.xml"
+  },
+  {
+    "name": "TVN 24 - Najważniejsze",
+    "url": "http://www.tvn24.pl/najwazniejsze.xml"
+  },
+  {
+    "name": "TVN 24 - Galleria",
+    "url": "http://www.tvn24.pl/zdjecia.xml"
+  },
+  {
+    "name": "TVN 24 - Sport",
+    "url": "http://sport.tvn24.pl/sport,81,m.xml"
+  },
+  {
+    "name": "TVN 24 - Polska",
+    "url": "http://www.tvn24.pl/wiadomosci-z-kraju,3.xml"
+  },
+  {
+    "name": "TVN 24 - Świat",
+    "url": "http://www.tvn24.pl/wiadomosci-ze-swiata,2.xml"
+  },
+  {
+    "name": "TVN 24 - Biznes",
+    "url": "http://www.tvn24.pl/biznes-gospodarka,6.xml"
+  },
+  {
+    "name": "TVN 24 - Pogoda",
+    "url": "http://www.tvn24.pl/pogoda,7.xml"
+  },
+  {
+    "name": "TVN 24 - Kultura",
+    "url": "http://www.tvn24.pl/kultura-styl,8.xml"
+  },
+  {
+    "name": "TVN 24 - Ciekawostki",
+    "url": "http://www.tvn24.pl/ciekawostki-michalki,5.xml"
+  },
+  {
+    "name": "TVN 24 - Tech",
+    "url": "http://www.tvn24.pl/internet-hi-tech-media,40.xml"
+  },
+  {
+    "name": "Fakty",
+    "url": "http://fakty.interia.pl/feed"
+  },
+  {
+    "name": "Fakty - Polska",
+    "url": "http://fakty.interia.pl/polska/feed"
+  },
+  {
+    "name": "Fakty - Świat",
+    "url": "http://fakty.interia.pl/swiat/feed"
+  },
+  {
+    "name": "Fakty - Kultura",
+    "url": "http://fakty.interia.pl/kultura/feed"
+  },
+  {
+    "name": "The New York Times",
+    "url": "http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"
+  },
+  {
+    "name": "Apple - newsroom",
+    "url": "https://www.apple.com/newsroom/rss-feed.rss"
+  },
+  {
+    "name": "Sony Global News",
+    "url": "https://www.sony.net/SonyInfo/News/Press/data/pressrelease_for_top.xml"
+  },
+  {
+    "name": "Samsung",
+    "url": "http://www.samsung.com/us/function/rss/rssFeedItemList.do?typeCd=NEWS"
   }
 ]

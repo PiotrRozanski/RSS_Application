@@ -1,11 +1,9 @@
 package uz.pl.rss_application;
 
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -23,8 +21,6 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import uz.pl.rss_application.adapter.ChannelListAdapter;
@@ -36,7 +32,6 @@ import uz.pl.rss_application.parser.XmlParser;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    private static final String DEFAULT_RSS = "http://www.rmf24.pl/fakty/feed";
     private String currentRssLink;
 
     private RecyclerView recyclerView;
