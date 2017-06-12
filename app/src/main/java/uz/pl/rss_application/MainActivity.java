@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -11,8 +12,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private String currentRssLink;
+
+    private Button buttonView1;
+    private Button buttonView2;
+    private Button buttonView3;
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeLayout;
@@ -72,19 +79,41 @@ public class MainActivity extends AppCompatActivity {
 
     public void Widok1Click(View view) {
         if(currentRssLink != null) {
+            changeButtonColor(1);
             recyclerView.setAdapter(new RssFeedListAdapter(feedModelList, RssFeedListAdapter.RSS_VIEW_TYPE.RSS_VIEW_1));
         }
     }
 
     public void Widok2Click(View view) {
         if(currentRssLink != null) {
+            changeButtonColor(2);
             recyclerView.setAdapter(new RssFeedListAdapter(feedModelList, RssFeedListAdapter.RSS_VIEW_TYPE.RSS_VIEW_2));
         }
     }
 
     public void Widok3Click(View view) {
         if(currentRssLink != null) {
+            changeButtonColor(3);
             recyclerView.setAdapter(new RssFeedListAdapter(feedModelList, RssFeedListAdapter.RSS_VIEW_TYPE.RSS_VIEW_3));
+        }
+    }
+    public void changeButtonColor(int selected){
+        buttonView1 = (Button) findViewById(R.id.widok1);
+        buttonView2 = (Button) findViewById(R.id.widok2);
+        buttonView3 = (Button) findViewById(R.id.widok3);
+        buttonView1.setBackground(ContextCompat.getDrawable(getApplicationContext(), (selected ==  1 ? R.drawable.ic_action_view_1_selected :  R.drawable.ic_action_view_1) ) );
+        buttonView2.setBackground(ContextCompat.getDrawable(getApplicationContext(), (selected ==  2 ? R.drawable.ic_action_view_2_selected :  R.drawable.ic_action_view_2) ) );
+        buttonView3.setBackground(ContextCompat.getDrawable(getApplicationContext(), (selected ==  3 ? R.drawable.ic_action_view_3_selected :  R.drawable.ic_action_view_3) ) );
+    }
+
+    public void MenuClick(View view) {
+        if(!drawerLayout.isDrawerOpen(Gravity.START)){
+            recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+            drawerLayout.openDrawer(Gravity.START);
+            drawerLayout.setVisibility(View.VISIBLE);
+        }
+        else {
+            drawerLayout.closeDrawer(Gravity.START);
         }
     }
 
@@ -116,13 +145,12 @@ public class MainActivity extends AppCompatActivity {
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+         /*swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 fetchRss();
             }
-        });
+        });*/
     }
 
     private void fetchRss() {
@@ -181,9 +209,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Boolean success) {
             swipeLayout.setRefreshing(false);
-
             if (success) {
                 recyclerView.setAdapter(new RssFeedListAdapter(feedModelList, RssFeedListAdapter.RSS_VIEW_TYPE.RSS_VIEW_1));
+                changeButtonColor(1);
             } else {
                 Toast.makeText(MainActivity.this,
                         "Invalid link to RSS",
