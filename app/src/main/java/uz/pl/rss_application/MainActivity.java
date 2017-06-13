@@ -109,9 +109,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void MenuClick(View view) {
-        //drawerLayout.setVisibility(View.VISIBLE);
-        //swipeLayout.setVisibility(View.VISIBLE);
-        //if(!drawerLayout.isDrawerOpen(findViewById(R.id.left_drawer))){
         if(!isSelectRssOpen){
             drawerLayout.setVisibility(View.VISIBLE);
             swipeLayout.setVisibility(View.VISIBLE);
@@ -158,12 +155,6 @@ public class MainActivity extends AppCompatActivity {
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-         /*swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                fetchRss();
-            }
-        });*/
     }
 
     private void fetchRss() {
