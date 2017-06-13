@@ -64,12 +64,12 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="321dp" >
+        android:layout_height="match_parent" >
 
         <android.support.v4.widget.DrawerLayout
             android:id="@+id/drawer_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="168dp"
+            android:layout_height="511dp"
             android:fitsSystemWindows="true">
 
             <LinearLayout
@@ -116,8 +116,8 @@
 
                 <ListView
                     android:id="@+id/channel_list"
-                    android:layout_width="310dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="425dp"
                     android:layout_gravity="start"
                     android:background="@android:color/holo_orange_dark"
                     android:choiceMode="singleChoice"

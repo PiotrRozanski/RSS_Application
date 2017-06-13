@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -51,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     private List<RssFeedModel> feedModelList;
 
     private XmlParser xmlParser = new XmlParser();
+
+    private boolean isSelectRssOpen;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -108,13 +109,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void MenuClick(View view) {
-        if(!drawerLayout.isDrawerOpen(Gravity.START)){
+        //drawerLayout.setVisibility(View.VISIBLE);
+        //swipeLayout.setVisibility(View.VISIBLE);
+        //if(!drawerLayout.isDrawerOpen(findViewById(R.id.left_drawer))){
+        if(!isSelectRssOpen){
+            drawerLayout.setVisibility(View.VISIBLE);
+            swipeLayout.setVisibility(View.VISIBLE);
             recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
             drawerLayout.openDrawer(Gravity.START);
             drawerLayout.setVisibility(View.VISIBLE);
-        }
-        else {
-            drawerLayout.closeDrawer(Gravity.START);
+            swipeLayout.setVisibility(View.VISIBLE);
+            isSelectRssOpen = true;
+        } else {
+            drawerLayout.closeDrawer(findViewById(R.id.left_drawer));
+            drawerLayout.setVisibility(View.INVISIBLE);
+            swipeLayout.setVisibility(View.INVISIBLE);
+            isSelectRssOpen = false;
         }
     }
 
@@ -133,6 +143,8 @@ public class MainActivity extends AppCompatActivity {
         channelsListView.setItemChecked(position, true);
         setTitle(model.getName());
         drawerLayout.closeDrawer(findViewById(R.id.left_drawer));
+        drawerLayout.setVisibility(View.INVISIBLE);
+        swipeLayout.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -213,6 +225,8 @@ public class MainActivity extends AppCompatActivity {
             if (success) {
                 recyclerView.setAdapter(new RssFeedListAdapter(feedModelList, RssFeedListAdapter.RSS_VIEW_TYPE.RSS_VIEW_1));
                 changeButtonColor(1);
+                swipeLayout.setVisibility(View.INVISIBLE);
+                drawerLayout.setVisibility(View.INVISIBLE);
             } else {
                 Toast.makeText(MainActivity.this,
                         "Invalid link to RSS",
