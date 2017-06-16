@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
                 final InputStream inputStream = url.openConnection().getInputStream();
                 feedModelList = xmlParser.parseXmlFeed(inputStream);
 
-                //loadImages();
+                loadImages();
                 return true;
 
             } catch (final IOException | XmlPullParserException e) {
