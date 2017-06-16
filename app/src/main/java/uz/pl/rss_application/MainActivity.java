@@ -44,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeLayout;
 
+    private RssFeedListAdapter.RSS_VIEW_TYPE selectedType;
+    private int selectedBackgroungColor;
+
     private DrawerLayout drawerLayout;
     private ListView channelsListView;
 
@@ -60,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
         setViewElementAction();
         fillRssChannels();
         setTitle("Wybierz kanał RSS z lewej");
+        selectedType = RssFeedListAdapter.RSS_VIEW_TYPE.RSS_VIEW_1;
+        selectedBackgroungColor = 1;
     }
 
     List<RssChannelModel> channels;
@@ -81,21 +86,27 @@ public class MainActivity extends AppCompatActivity {
 
     public void Widok1Click(View view) {
         if(currentRssLink != null) {
-            changeButtonColor(1);
+            selectedBackgroungColor = 1;
+            changeButtonColor(selectedBackgroungColor);
+            selectedType = RssFeedListAdapter.RSS_VIEW_TYPE.RSS_VIEW_1;
             recyclerView.setAdapter(new RssFeedListAdapter(feedModelList, RssFeedListAdapter.RSS_VIEW_TYPE.RSS_VIEW_1));
         }
     }
 
     public void Widok2Click(View view) {
         if(currentRssLink != null) {
-            changeButtonColor(2);
+            selectedBackgroungColor = 2;
+            changeButtonColor(selectedBackgroungColor);
+            selectedType = RssFeedListAdapter.RSS_VIEW_TYPE.RSS_VIEW_2;
             recyclerView.setAdapter(new RssFeedListAdapter(feedModelList, RssFeedListAdapter.RSS_VIEW_TYPE.RSS_VIEW_2));
         }
     }
 
     public void Widok3Click(View view) {
         if(currentRssLink != null) {
-            changeButtonColor(3);
+            selectedBackgroungColor = 3;
+            changeButtonColor(selectedBackgroungColor);
+            selectedType = RssFeedListAdapter.RSS_VIEW_TYPE.RSS_VIEW_3;
             recyclerView.setAdapter(new RssFeedListAdapter(feedModelList, RssFeedListAdapter.RSS_VIEW_TYPE.RSS_VIEW_3));
         }
     }
@@ -180,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
                 final InputStream inputStream = url.openConnection().getInputStream();
                 feedModelList = xmlParser.parseXmlFeed(inputStream);
 
-                loadImages();
+                //loadImages();
                 return true;
 
             } catch (final IOException | XmlPullParserException e) {
@@ -214,8 +225,8 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(final Boolean success) {
             swipeLayout.setRefreshing(false);
             if (success) {
-                recyclerView.setAdapter(new RssFeedListAdapter(feedModelList, RssFeedListAdapter.RSS_VIEW_TYPE.RSS_VIEW_1));
-                changeButtonColor(1);
+                recyclerView.setAdapter(new RssFeedListAdapter(feedModelList, selectedType));
+                changeButtonColor(selectedBackgroungColor);
                 swipeLayout.setVisibility(View.INVISIBLE);
                 drawerLayout.setVisibility(View.INVISIBLE);
             } else {
